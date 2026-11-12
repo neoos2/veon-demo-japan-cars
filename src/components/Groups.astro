@@ -1,0 +1,34 @@
+---
+import FutureLink from "./FutureLink.astro";
+import { catalogGroups, popularGroups } from "../data/site";
+---
+<section id="groups" class="section section--change well groups" aria-labelledby="groups-title" data-rec="R-UX06">
+  <div class="container grid">
+    <h2 id="groups-title" class="head" data-reveal>Що найчастіше замовляють з доставкою</h2>
+    <ul role="list" class="popular" data-reveal style="--reveal-delay:60ms">
+      {popularGroups.map((g, i) => <li><FutureLink class="g">{g}</FutureLink>{i < popularGroups.length - 1 && <span class="sep" aria-hidden="true">/</span>}</li>)}
+    </ul>
+    <div class="catalog" data-reveal style="--reveal-delay:120ms">
+      <h3 class="catalog__h">Групи каталогу</h3>
+      <ul role="list" class="catalog__list">{catalogGroups.map((g) => <li><FutureLink>{g}</FutureLink></li>)}</ul>
+      <p class="brands-line">Оливи й антифризи Motul, амортизатори Kayaba, оригінал Toyota і Nissan та аналоги — у каталозі.</p>
+    </div>
+  </div>
+</section>
+
+<style>
+  .head { max-width: 18ch; }
+  .popular { list-style: none; display: flex; flex-wrap: wrap; align-items: baseline; gap: var(--s-4) 0; font-size: clamp(1.625rem, 1rem + 2.4vw, 2.5rem); font-weight: 700; line-height: 1.25; }
+  .popular li { display: inline-flex; align-items: baseline; }
+  .sep { color: var(--color-text-muted); font-weight: 400; margin-inline: var(--s-12); }
+  .popular :global(.g) { position: relative; text-decoration: none; }
+  .popular :global(.g)::after { content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 2px; background: var(--color-primary); transform: scaleX(0); transform-origin: left; transition: transform var(--dur-mid) var(--ease-out); }
+  .popular :global(.g:hover)::after, .popular :global(.g:focus-visible)::after { transform: scaleX(1); }
+  .catalog__h { font-size: var(--fs-16); margin-bottom: var(--s-12); }
+  .catalog__list { list-style: none; display: grid; grid-template-columns: minmax(0, 1fr); gap: 0 var(--gutter); border-top: 1px solid var(--color-rule); }
+  .catalog__list li { border-bottom: 1px solid var(--color-rule); }
+  .catalog__list :global(.future-link) { min-height: var(--control-h); }
+  .brands-line { margin-top: var(--s-24); color: var(--color-text-muted); max-width: var(--measure); }
+  @media (min-width: 768px) { .catalog__list { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+  @media (prefers-reduced-motion: reduce) { .popular :global(.g)::after { transition: none; } }
+</style>

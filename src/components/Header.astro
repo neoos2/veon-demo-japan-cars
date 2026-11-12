@@ -1,0 +1,128 @@
+---
+import FutureLink from "./FutureLink.astro";
+import Icon from "./Icon.astro";
+import { mainPhone, navAnchors, telegram } from "../data/site";
+// On the 404 page the anchors lead back to the homepage sections.
+interface Props { prefix?: string; }
+const { prefix = "" } = Astro.props;
+---
+<header class="site-header field" data-rec="R-UX03,R-UX01,G-R002">
+  <div class="container bar">
+    <a class="wordmark" href={`${prefix}#top`} aria-label="Japan Cars — на початок сторінки"><span class="disc" aria-hidden="true"></span><span class="wordmark__text" aria-hidden="true">JAPAN-CARS</span></a>
+    <nav class="desk-nav" aria-label="Розділи сторінки">
+      <ul role="list">
+        <li><FutureLink>Каталог</FutureLink></li>
+        {navAnchors.map((a) => <li><a href={`${prefix}${a.href}`}>{a.label}</a></li>)}
+      </ul>
+    </nav>
+    <div class="actions">
+      <FutureLink class="lang">RU</FutureLink>
+      <a class="phone mono" href={mainPhone.href}><span class="visually-hidden">Подзвонити: </span>{mainPhone.label}</a>
+      <a class="icon-btn call" href={mainPhone.href} aria-label={`Подзвонити ${mainPhone.label}`}><Icon name="phone" /></a>
+      <a class="icon-btn tg" href={telegram} aria-label="Написати в Telegram" target="_blank" rel="noopener"><Icon name="telegram" /></a>
+      <button class="icon-btn menu-toggle" type="button" aria-expanded="false" aria-controls="menu" hidden>
+        <span class="icon-open"><Icon name="menu" size={22} /></span><span class="icon-close"><Icon name="close" size={22} /></span>
+        <span class="visually-hidden">Меню</span>
+      </button>
+    </div>
+  </div>
+  <div class="menu" id="menu" hidden>
+    <nav class="container" aria-label="Меню">
+      <ul role="list" class="menu__list">
+        {navAnchors.map((a) => <li><a href={`${prefix}${a.href}`}>{a.label}</a></li>)}
+        <li><a href={`${prefix}#faq`}>Питання і відповіді</a></li>
+      </ul>
+      <ul role="list" class="menu__future">
+        <li><FutureLink>Каталог</FutureLink></li>
+        <li><FutureLink>Пошук за артикулом</FutureLink></li>
+        <li><FutureLink>Кабінет і кошик</FutureLink></li>
+        <li><FutureLink>Версія RU</FutureLink></li>
+      </ul>
+      <p class="menu__call"><a class="btn btn--primary" href={mainPhone.href}><Icon name="phone" />Подзвонити {mainPhone.label}</a></p>
+    </nav>
+  </div>
+</header>
+
+<style>
+  .site-header { position: sticky; top: 0; z-index: 50; border-bottom: 1px solid var(--color-rule-field); }
+  .bar { height: var(--header-h); display: flex; align-items: center; gap: var(--s-24); }
+  .wordmark { display: inline-flex; align-items: center; gap: var(--s-12); min-height: var(--tap); text-decoration: none; font-family: var(--font-display); font-weight: 700; font-size: var(--fs-20); letter-spacing: 0; white-space: nowrap; }
+  .disc { width: 26px; height: 26px; border-radius: 50%; background: var(--color-brand); flex: none; }
+  .desk-nav { display: none; margin-inline-start: var(--s-16); }
+  .desk-nav ul { display: flex; align-items: center; gap: var(--s-24); list-style: none; }
+  .desk-nav a, .desk-nav :global(.future-link) { font-size: var(--fs-16); text-decoration: none; color: var(--color-on-field); white-space: nowrap; display: inline-flex; align-items: center; min-height: var(--tap); position: relative; }
+  .desk-nav :global(.future-link) { text-decoration: underline dotted; text-decoration-color: var(--color-on-field-muted); text-underline-offset: 0.3em; }
+  .desk-nav a::after { content: ""; position: absolute; left: 0; right: 0; bottom: 8px; height: 2px; background: var(--color-accent-on-field); transform: scaleX(0); transform-origin: left; transition: transform var(--dur-mid) var(--ease-out); }
+  .desk-nav a:hover::after { transform: scaleX(1); }
+  .actions { margin-inline-start: auto; display: flex; align-items: center; gap: var(--s-12); }
+  .actions :global(.lang) { display: none; font-size: var(--fs-14); color: var(--color-on-field-muted); min-height: var(--tap); }
+  .phone { display: none; font-size: var(--fs-17); text-decoration: none; white-space: nowrap; min-height: var(--tap); align-items: center; padding-inline: var(--s-4); }
+  .phone:hover { color: var(--color-accent-on-field); }
+  .icon-btn { width: var(--tap); height: var(--tap); display: inline-flex; align-items: center; justify-content: center; border: var(--border) solid var(--color-rule-field); border-radius: var(--radius); background: transparent; color: var(--color-on-field); cursor: pointer; transition: background-color var(--dur-mid) var(--ease-out), border-color var(--dur-mid) var(--ease-out); }
+  .icon-btn:hover { background: var(--color-field-raised); border-color: var(--color-on-field-muted); }
+  .icon-btn:active { transform: scale(.98); }
+  .tg { display: none; }
+  .menu-toggle .icon-close { display: none; }
+  .menu-toggle[aria-expanded="true"] .icon-open { display: none; }
+  .menu-toggle[aria-expanded="true"] .icon-close { display: inline-flex; }
+  .menu-toggle span { display: inline-flex; }
+
+  .menu { position: absolute; inset-inline: 0; top: 100%; background: var(--color-field-raised); border-bottom: 1px solid var(--color-rule-field); max-height: calc(100dvh - var(--header-h)); overflow-y: auto; }
+  .menu nav { padding-block: var(--s-24) var(--s-40); display: grid; gap: var(--s-24); }
+  .menu__list { list-style: none; display: grid; }
+  .menu__list a { display: flex; align-items: center; min-height: 52px; font-size: var(--fs-20); font-weight: 700; text-decoration: none; border-bottom: 1px solid var(--color-rule-field); }
+  .menu__list a:hover { color: var(--color-accent-on-field); }
+  .menu__future { list-style: none; display: flex; flex-wrap: wrap; gap: var(--s-8) var(--s-24); color: var(--color-on-field-muted); }
+  .menu__future :global(.future-link) { min-height: var(--tap); }
+  .menu__call .btn { width: 100%; }
+
+  @media (min-width: 768px) {
+    .phone { display: inline-flex; }
+    .call { display: none; }
+    .tg { display: inline-flex; }
+    .menu__call { display: none; }
+  }
+  @media (min-width: 1200px) {
+    .desk-nav { display: block; }
+    .actions :global(.lang) { display: inline-flex; }
+    .menu-toggle, .menu { display: none !important; }
+  }
+  @media (max-width: 380px) {
+    .bar { gap: var(--s-12); }
+    .wordmark { font-size: var(--fs-16); gap: var(--s-8); }
+    .disc { width: 22px; height: 22px; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .desk-nav a::after { transition: none; }
+  }
+</style>
+
+<script>
+  const toggle = document.querySelector<HTMLButtonElement>(".menu-toggle");
+  const menu = document.getElementById("menu");
+  if (toggle && menu) {
+    toggle.hidden = false;
+    const header = toggle.closest("header") as HTMLElement;
+    const focusables = () => Array.from(header.querySelectorAll<HTMLElement>("a[href], button:not([hidden]), [tabindex='0']")).filter((el) => el.offsetParent !== null);
+    const setOpen = (open: boolean, restore = true) => {
+      toggle.setAttribute("aria-expanded", String(open));
+      toggle.querySelector(".visually-hidden")!.textContent = open ? "Закрити меню" : "Меню";
+      menu.hidden = !open;
+      if (open) menu.querySelector<HTMLElement>("a")?.focus();
+      else if (restore) toggle.focus();
+    };
+    toggle.addEventListener("click", () => setOpen(toggle.getAttribute("aria-expanded") !== "true"));
+    menu.addEventListener("click", (e) => { if ((e.target as HTMLElement).closest("a[href^='#']")) setOpen(false, false); });
+    document.addEventListener("keydown", (e) => {
+      if (menu.hidden) return;
+      if (e.key === "Escape") { setOpen(false); return; }
+      if (e.key === "Tab") {
+        const list = focusables();
+        const first = list[0], last = list[list.length - 1];
+        if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+        else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+      }
+    });
+    window.matchMedia("(min-width: 1200px)").addEventListener("change", (m) => { if (m.matches && !menu.hidden) setOpen(false, false); });
+  }
+</script>

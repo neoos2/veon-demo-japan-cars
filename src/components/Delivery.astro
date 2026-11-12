@@ -1,0 +1,83 @@
+---
+import { address } from "../data/site";
+const kyiv = [
+  { sum: "до 799 грн", price: "300 грн" },
+  { sum: "800–1999 грн", price: "240 грн" },
+  { sum: "від 2000 грн", price: "180 грн" },
+];
+---
+<section id="delivery" class="section section--change field delivery" aria-labelledby="delivery-title" data-rec="R-UX07">
+  <div class="container grid">
+    <h2 id="delivery-title" class="head" data-reveal>Як і коли деталь буде у вас</h2>
+    <div class="col col--kyiv" data-reveal style="--reveal-delay:60ms">
+      <h3>Київ, кур’єр до під’їзду</h3>
+      <table class="tbl">
+        <caption class="visually-hidden">Вартість доставки по Києву залежно від суми замовлення</caption>
+        <thead><tr><th scope="col">Сума замовлення</th><th scope="col">Доставка</th></tr></thead>
+        <tbody>{kyiv.map((r) => <tr><td class="mono">{r.sum}</td><td class="mono">{r.price}</td></tr>)}</tbody>
+      </table>
+      <p class="muted small">Будні 11:00–17:00, в інший час — за попереднім погодженням. Доставляємо до під’їзду будинку чи офісу.</p>
+    </div>
+    <div class="col col--ua" data-reveal style="--reveal-delay:120ms">
+      <h3>Україна</h3>
+      <p>Новою Поштою. Вартість доставки визначає перевізник, оплата при отриманні у відділенні.</p>
+    </div>
+    <div class="col col--pick" data-reveal style="--reveal-delay:180ms">
+      <h3>Самовивіз</h3>
+      <p>{address}, тільки за попереднім погодженням: асортимент в офісі не зберігається.</p>
+    </div>
+    <div class="terms" data-reveal>
+      <div class="term">
+        <h3>В наявності</h3>
+        <p class="muted">Деталь на складі в Україні. Строк доставки менеджер назве разом із ціною.</p>
+      </div>
+      <div class="term">
+        <h3>Під замовлення з-за кордону</h3>
+        <p><span class="mono big">7–30</span> робочих днів</p>
+        <p class="muted">Склади в Європі, ОАЕ, Японії, Кореї та США. Точний строк назве менеджер.</p>
+      </div>
+    </div>
+    <div class="pay" data-reveal>
+      <h3>Оплата</h3>
+      <ul role="list">
+        <li>Готівкою</li>
+        <li>Безготівковий розрахунок з ПДВ</li>
+        <li>Тільки в гривні</li>
+        <li>Замовлення з-за кордону — за передоплатою</li>
+        <li class="slot" data-fill="payment-card">Оплата карткою — уточнюється</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<style>
+  .head { max-width: 16ch; }
+  h3 { margin-bottom: var(--s-16); }
+  .col { padding-top: var(--s-16); border-top: 1px solid var(--color-rule-field); }
+  .col p { max-width: 40ch; }
+  .tbl { width: 100%; border-collapse: collapse; margin-bottom: var(--s-16); }
+  .tbl th { text-align: left; font-weight: 400; font-size: var(--fs-14); color: var(--color-on-field-muted); padding-bottom: var(--s-8); }
+  .tbl td { padding-block: var(--s-12); border-top: 1px solid var(--color-rule-field); font-size: var(--fs-20); }
+  .tbl td + td, .tbl th + th { text-align: right; }
+  .small { font-size: var(--fs-14); }
+  .terms { display: grid; gap: var(--s-24); padding-top: var(--s-24); border-top: 1px solid var(--color-rule-field); }
+  .term { display: grid; gap: var(--s-8); align-content: start; }
+  .term h3 { margin-bottom: 0; }
+  .big { font-size: var(--fs-44); line-height: 1.1; color: var(--color-accent-on-field); margin-inline-end: var(--s-8); }
+  .pay { padding-top: var(--s-24); border-top: 1px solid var(--color-rule-field); }
+  .pay ul { list-style: none; display: flex; flex-wrap: wrap; gap: var(--s-12); }
+  .pay li { padding: var(--s-8) var(--s-12); border: 1px solid var(--color-rule-field); border-radius: var(--radius); }
+  .pay .slot { border: 1px dashed var(--color-on-field-muted); color: var(--color-on-field-muted); }
+  @media (min-width: 768px) {
+    .col--kyiv { grid-column: 1 / span 12; }
+    .col--ua { grid-column: 1 / span 6; }
+    .col--pick { grid-column: 7 / span 6; }
+    .terms { grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: var(--gutter); }
+  }
+  @media (min-width: 1024px) {
+    .head { grid-column: 1 / span 8; }
+    .col--kyiv { grid-column: 1 / span 5; }
+    .col--ua { grid-column: 7 / span 3; }
+    .col--pick { grid-column: 10 / span 3; }
+  }
+</style>

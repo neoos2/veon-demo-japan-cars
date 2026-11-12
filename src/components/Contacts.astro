@@ -1,0 +1,44 @@
+---
+import Icon from "./Icon.astro";
+import { address, email, hours, mapUrl, phones, telegram } from "../data/site";
+---
+<section id="contacts" class="section section--change field contacts" aria-labelledby="contacts-title" data-rec="R-UX11,R-UX03">
+  <div class="container grid">
+    <h2 id="contacts-title" class="head" data-reveal>Подзвоніть, коли VIN під рукою</h2>
+    <ul role="list" class="phones" data-reveal style="--reveal-delay:60ms">
+      {phones.map((p) => <li><a class="mono" href={p.href}>{p.label}</a></li>)}
+    </ul>
+    <div class="channels" data-reveal style="--reveal-delay:120ms">
+      <a class="btn btn--secondary" href={telegram} target="_blank" rel="noopener"><Icon name="telegram" />Написати в Telegram</a>
+      <p class="line"><Icon name="mail" /><a class="link" href={`mailto:${email}`}>{email}</a></p>
+      <div class="line">
+        <Icon name="pin" />
+        <div>
+          <p>{address}</p>
+          <p class="muted">Візит — за попереднім погодженням</p>
+          <a class="link route" href={mapUrl} target="_blank" rel="noopener">Прокласти маршрут</a>
+        </div>
+      </div>
+      <p class="muted">Підбір і замовлення: {hours}</p>
+    </div>
+  </div>
+</section>
+
+<style>
+  .contacts { padding-bottom: var(--s-40); }
+  .head { max-width: 16ch; }
+  .phones { list-style: none; display: grid; gap: var(--s-8); }
+  .phones a { display: inline-flex; align-items: center; min-height: var(--tap); font-size: var(--fs-phone); text-decoration: none; white-space: nowrap; }
+  .phones a:hover { color: var(--color-accent-on-field); }
+  .channels { display: grid; gap: var(--s-24); align-content: start; justify-items: start; }
+  .line { display: grid; grid-template-columns: 24px minmax(0, 1fr); gap: var(--s-12); align-items: start; }
+  .line :global(svg) { margin-top: 4px; color: var(--color-on-field-muted); }
+  .line a { overflow-wrap: anywhere; display: inline-flex; align-items: center; min-height: var(--tap); }
+  .line :global(svg) { margin-top: 12px; }
+  .route { display: inline-flex; min-height: var(--tap); align-items: center; font-weight: 700; }
+  @media (min-width: 1024px) {
+    .head { grid-column: 1 / span 8; }
+    .phones { grid-column: 1 / span 6; }
+    .channels { grid-column: 8 / span 5; }
+  }
+</style>

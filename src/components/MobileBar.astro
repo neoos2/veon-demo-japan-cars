@@ -1,0 +1,22 @@
+---
+// Fixed bottom action bar on phones: three real actions, no inactive cart/garage.
+import Icon from "./Icon.astro";
+import { mainPhone, telegram } from "../data/site";
+---
+<nav class="mbar field" aria-label="Швидкі дії" data-rec="R-UX05">
+  <a class="mbar__call" href={mainPhone.href}><Icon name="phone" />Подзвонити</a>
+  <a href={telegram} target="_blank" rel="noopener"><Icon name="telegram" />Telegram</a>
+  <a href="#vin-check">Ваш VIN</a>
+</nav>
+
+<style>
+  .mbar { position: fixed; inset-inline: 0; bottom: 0; z-index: 40; display: grid; grid-template-columns: 1.3fr 1fr 1fr; height: calc(var(--bar-h) + env(safe-area-inset-bottom, 0px)); padding-bottom: env(safe-area-inset-bottom, 0px); border-top: 1px solid var(--color-rule-field); }
+  .mbar a { display: inline-flex; align-items: center; justify-content: center; gap: var(--s-8); min-height: var(--bar-h); font-weight: 700; font-size: var(--fs-16); text-decoration: none; transition: background-color var(--dur-mid) var(--ease-out); }
+  .mbar a + a { border-inline-start: 1px solid var(--color-rule-field); }
+  .mbar a:active { background: var(--color-field-raised); }
+  .mbar a:focus-visible { outline-offset: -4px; }
+  .mbar__call { background: var(--color-primary); color: var(--color-on-primary); }
+  .mbar a.mbar__call:active { background: var(--color-primary-hover); }
+  @media (max-width: 359px) { .mbar a { font-size: var(--fs-14); gap: var(--s-4); } .mbar a :global(svg) { display: none; } }
+  @media (min-width: 768px) { .mbar { display: none; } }
+</style>

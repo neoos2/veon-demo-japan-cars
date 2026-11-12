@@ -1,0 +1,67 @@
+---
+import Icon from "./Icon.astro";
+import { mailtoVin, mainPhone, telegram } from "../data/site";
+const letter = [
+  { k: "VIN", v: "17 символів" },
+  { k: "Авто", v: "марка, модель, рік" },
+  { k: "Деталі", v: "перелік і кількість" },
+  { k: "Телефон", v: "щоб менеджер міг передзвонити" },
+];
+---
+<section id="vin" class="section vin-how" aria-labelledby="vin-title" data-rec="R-UX03,R-UX04">
+  <div class="container grid">
+    <h2 id="vin-title" class="head" data-reveal>17 символів замість артикула</h2>
+    <div class="left" data-reveal style="--reveal-delay:60ms">
+      <p class="intro">Номер деталі знати не потрібно. Достатньо VIN: за ним менеджер знайде саме те, що стоїть на вашому авто.</p>
+      <div class="letter">
+        <p class="letter__title">Що написати менеджеру</p>
+        <dl>
+          {letter.map((r) => <div class="letter__row"><dt>{r.k}</dt><dd>{r.v}</dd></div>)}
+        </dl>
+      </div>
+      <div class="ctas">
+        <a class="btn btn--primary" href={mainPhone.href}><Icon name="phone" />Подзвонити</a>
+        <a class="btn btn--secondary" href={telegram} target="_blank" rel="noopener"><Icon name="telegram" />Telegram</a>
+      </div>
+      <p class="mail"><a class="btn btn--tertiary" href={mailtoVin}>Надіслати VIN листом</a> <span class="muted">шаблон відкриється у вашій пошті</span></p>
+    </div>
+    <div class="right" data-reveal style="--reveal-delay:120ms">
+      <ol class="steps" role="list">
+        <li><span class="n mono" aria-hidden="true">1</span><p>Ви надсилаєте VIN і перелік деталей: дзвінком, у Telegram або листом.</p></li>
+        <li><span class="n mono" aria-hidden="true">2</span><p>Менеджер перевіряє VIN за дилерськими каталогами і знаходить номери деталей. Підбір безкоштовний.</p></li>
+        <li><span class="n mono" aria-hidden="true">3</span><p>Надсилає варіанти, оригінал і аналоги, з цінами та строками.</p></li>
+        <li><span class="n mono" aria-hidden="true">4</span><p>Ви обираєте, ми доставляємо: кур’єром по Києву або Новою Поштою по Україні.</p></li>
+      </ol>
+      <div class="notes">
+        <p><strong>Де знайти VIN.</strong> У техпаспорті авто, а також на табличці під лобовим склом і на деяких елементах кузова.</p>
+        <p><strong>Чому саме VIN.</strong> Деталь, підібрану за неправильними даними, не повертають. VIN прибирає помилку ще до замовлення.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .head { max-width: 16ch; }
+  .intro { max-width: 40ch; margin-bottom: var(--s-24); }
+  .letter { border-top: 2px solid var(--color-text); }
+  .letter__title { font-weight: 700; padding-block: var(--s-12); }
+  .letter__row { display: grid; grid-template-columns: 6.5rem minmax(0, 1fr); gap: var(--s-16); padding-block: var(--s-12); border-top: 1px solid var(--color-rule); }
+  .letter__row dt { font-family: var(--font-mono); font-weight: 500; }
+  .letter__row dd { color: var(--color-text-muted); }
+  .ctas { display: flex; flex-wrap: wrap; align-items: center; gap: var(--s-12) var(--s-24); margin-top: var(--s-24); }
+  .mail { margin-top: var(--s-12); display: flex; flex-wrap: wrap; align-items: center; gap: 0 var(--s-12); }
+  .mail .muted { font-size: var(--fs-14); }
+  .steps { list-style: none; display: grid; gap: var(--s-24); counter-reset: none; }
+  .steps li { display: grid; grid-template-columns: 2.5rem minmax(0, 1fr); gap: var(--s-12); font-size: var(--fs-20); line-height: 1.45; }
+  .steps .n { font-size: var(--fs-20); color: var(--color-primary); line-height: 1.45; }
+  .notes { display: grid; gap: var(--s-16); margin-top: var(--s-40); padding-top: var(--s-24); border-top: 1px solid var(--color-rule); }
+  .notes p { max-width: var(--measure); color: var(--color-text-muted); }
+  .notes strong { color: var(--color-text); }
+  @media (min-width: 1024px) {
+    .head { grid-column: 1 / span 8; }
+    .left { grid-column: 1 / span 5; }
+    .right { grid-column: 7 / span 6; }
+    .steps li { font-size: var(--fs-28); line-height: 1.35; grid-template-columns: 3.5rem minmax(0, 1fr); }
+    .steps .n { font-size: var(--fs-28); line-height: 1.35; }
+  }
+</style>

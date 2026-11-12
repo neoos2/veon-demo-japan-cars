@@ -1,0 +1,52 @@
+---
+import FutureLink from "./FutureLink.astro";
+import { address, email, mapUrl, phones, telegram } from "../data/site";
+const buyers = ["Доставка й оплата", "Гарантія і повернення", "Питання і відповіді", "Бренди"];
+const company = ["Про компанію", "Блог", "Угода користувача", "Політика конфіденційності"];
+---
+<footer class="footer field" data-rec="R-UX11">
+  <div class="container footer__inner">
+    <div class="footer__contacts">
+      <a class="footer__mark" href="#top"><span class="disc" aria-hidden="true"></span>JAPAN-CARS</a>
+      <ul role="list" class="footer__phones">
+        {phones.map((p) => <li><a class="mono link" href={p.href}>{p.label}</a></li>)}
+      </ul>
+      <p><a class="link" href={telegram} target="_blank" rel="noopener">Telegram-бот</a>, <a class="link" href={`mailto:${email}`}>{email}</a></p>
+      <p><a class="link" href={mapUrl} target="_blank" rel="noopener">{address}</a></p>
+    </div>
+    <nav class="footer__groups" aria-label="Розділи сайту">
+      <div>
+        <h2 class="footer__h">Покупцям</h2>
+        <ul role="list">{buyers.map((t) => <li><FutureLink>{t}</FutureLink></li>)}</ul>
+      </div>
+      <div>
+        <h2 class="footer__h">Компанія</h2>
+        <ul role="list">{company.map((t) => <li><FutureLink>{t}</FutureLink></li>)}</ul>
+      </div>
+    </nav>
+    <p class="footer__copy muted">© 2026 Japan Cars</p>
+  </div>
+</footer>
+
+<style>
+  .footer { padding-block: var(--s-40) var(--s-24); }
+  .footer__inner { border-top: 1px solid var(--color-rule-field); padding-top: var(--s-40); display: grid; gap: var(--s-40); }
+  .footer__contacts { display: grid; gap: var(--s-12); align-content: start; }
+  .footer__mark { display: inline-flex; align-items: center; gap: var(--s-12); font-weight: 700; font-size: var(--fs-20); text-decoration: none; min-height: var(--tap); justify-self: start; }
+  .disc { width: 22px; height: 22px; border-radius: 50%; background: var(--color-brand); }
+  .footer__phones { list-style: none; display: flex; flex-wrap: wrap; gap: var(--s-4) var(--s-24); }
+  .footer__phones a { display: inline-flex; min-height: var(--tap); align-items: center; }
+  .footer__contacts p a { display: inline-flex; align-items: center; min-height: var(--tap); }
+  .footer__groups { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--s-24); }
+  .footer__h { font-size: var(--fs-16); font-weight: 700; margin-bottom: var(--s-8); }
+  .footer__groups ul { list-style: none; display: grid; }
+  .footer__groups :global(.future-link) { min-height: var(--tap); color: var(--color-on-field-muted); }
+  .footer__copy { font-size: var(--fs-14); }
+  @media (max-width: 767px) { .footer { padding-bottom: calc(var(--s-24) + var(--bar-h) + env(safe-area-inset-bottom, 0px)); } }
+  @media (min-width: 1024px) {
+    .footer__inner { grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--gutter); }
+    .footer__contacts { grid-column: 1 / span 6; }
+    .footer__groups { grid-column: 8 / span 5; }
+    .footer__copy { grid-column: 1 / -1; }
+  }
+</style>

@@ -1,0 +1,73 @@
+/* Hallmark · shape: single landing page · genre: modern-minimal · theme: custom · job: buy · idea: "Ваш VIN — уже заявка: сторінка читається як 17 символів VIN, перша літера — країна" · vibe: "інженерно, прямо, графіт і червоний знак"
+ * paper: #F1F3F2 + field #1B2021 · accent: #DB3925 (brand) / #C7311E (control) · display: Geologica · body: Geologica · mono: IBM Plex Mono (VIN, figures) · hero: graphite field, H1 top-left over a full-width 17-cell VIN input with segment brackets · nav: one graphite bar, wordmark + 6 anchors + phone in clear text + Telegram · footer: continues the contacts field, two FutureLink groups, no newsletter · imagery: none · signature: the VIN row the visitor fills with their own VIN, first character in brand red
+ * axes: mid/geometric-sans/warm · posture: committed · contrast: pass · fold: pass · v2.0.0 */
+/* Hallmark · pre-emit critique: P5 H4 E4 S5 R4 V4 · weakest: H/E, the hero carries an input and two actions; the VIN row stays visually secondary to the head and the call button, the decode status stays one line */
+/* Client design tokens: from design/concept.md (veon-concept: colors, fonts; «Дизайн-система для FULL»). One token system for the site.
+   Breakpoints (media queries cannot read custom properties): 480 / 768 / 1024 / 1200 (nav) / 1440. */
+:root {
+  /* paper */
+  --color-bg: #F1F3F2;
+  --color-well: #E4E8E7;
+  --color-text: #161A1B;
+  --color-text-muted: #5E6769;
+  --color-rule: #C3CACA;
+  /* graphite field */
+  --color-field: #1B2021;
+  --color-field-raised: #262C2D;
+  --color-on-field: #F1F3F2;
+  --color-on-field-muted: #8E989A;
+  --color-rule-field: #3A4243;
+  /* brand red: disc + first VIN character; control red for fills */
+  --color-brand: #DB3925;
+  --color-primary: #C7311E;
+  --color-primary-hover: #A92815;
+  --color-on-primary: #F1F3F2;
+  --color-accent: #C7311E;           /* focus ring on paper */
+  --color-accent-on-field: #F0715C;  /* small red text and focus on graphite */
+
+  --font-display: "Geologica", system-ui, sans-serif;
+  --font-body: "Geologica", system-ui, sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+
+  /* type scale ≈1.25 from 16 */
+  --fs-14: 0.875rem;
+  --fs-16: 1rem;
+  --fs-17: 1.0625rem;
+  --fs-20: 1.25rem;
+  --fs-28: clamp(1.375rem, 1.1rem + 1vw, 1.75rem);
+  --fs-44: clamp(2rem, 1.3rem + 2.6vw, 2.75rem);
+  --fs-64: clamp(2.1rem, 1rem + 4.4vw, 4rem);
+  --fs-vin: clamp(1.5rem, 0.6rem + 3.6vw, 4.25rem);
+  --fs-jk: clamp(6rem, 14vw, 12rem);
+  --fs-phone: clamp(1.625rem, 1.1rem + 2vw, 2.5rem);
+  --lh-tight: 1.05;
+  --lh-head: 1.15;
+  --lh-text: 1.6;
+  --measure: 62ch;
+
+  /* spacing 4/8 */
+  --s-2: 2px; --s-4: 4px; --s-8: 8px; --s-12: 12px; --s-16: 16px; --s-24: 24px;
+  --s-40: 40px; --s-64: 64px; --s-96: 96px; --s-144: 144px;
+  --section-gap: clamp(64px, 6vw + 32px, 144px);   /* paper → paper */
+  --section-gap-field: clamp(56px, 4vw + 32px, 96px); /* where the field changes */
+  --space: clamp(20px, 5vw, 80px);                  /* page side padding */
+  --gutter: 24px;
+  --container: 1360px;
+
+  --radius: 4px;
+  --header-h: 64px;
+  --bar-h: 56px;
+  --tap: 44px;
+  --control-h: 48px;
+  --border: 1.5px;
+
+  /* motion */
+  --ease-out: cubic-bezier(.2, .7, .2, 1);
+  --dur: 420ms;
+  --dur-fast: 120ms;
+  --dur-mid: 220ms;
+  --dur-close: 160ms;
+  --reveal-shift: 8px;
+}
+@media (min-width: 1024px) { :root { --gutter: 32px; } }
+@media (max-width: 767px) { :root { --reveal-shift: 4px; } }

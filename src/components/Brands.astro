@@ -1,0 +1,43 @@
+---
+import FutureLink from "./FutureLink.astro";
+import { brandsJ, brandsK } from "../data/site";
+---
+<section id="brands" class="section brands" aria-labelledby="brands-title" data-rec="R-UX06">
+  <div class="container grid">
+    <h2 id="brands-title" class="head" data-reveal>Спершу — Японія і Корея</h2>
+    <div class="col col--j" data-reveal style="--reveal-delay:60ms">
+      <p class="letter mono" aria-hidden="true">J</p>
+      <p class="cap">J — перша літера VIN авто, складених у Японії</p>
+      <ul role="list" class="list list--j">{brandsJ.map((b) => <li><FutureLink class="brand">{b}</FutureLink></li>)}</ul>
+    </div>
+    <div class="col col--k" data-reveal style="--reveal-delay:120ms">
+      <p class="letter mono" aria-hidden="true">K</p>
+      <p class="cap">K — перша літера VIN авто, складених у Південній Кореї</p>
+      <ul role="list" class="list">{brandsK.map((b) => <li><FutureLink class="brand">{b}</FutureLink></li>)}</ul>
+    </div>
+    <p class="more" data-reveal>А також ще 30 марок, європейські й американські. <FutureLink class="all">Усі 46 марок</FutureLink></p>
+  </div>
+</section>
+
+<style>
+  .brands { padding-top: 0; }
+  .letter { font-size: var(--fs-jk); line-height: .9; color: var(--color-brand); margin-bottom: var(--s-16); }
+  .cap { color: var(--color-text-muted); max-width: 30ch; margin-bottom: var(--s-24); padding-bottom: var(--s-16); border-bottom: 1px solid var(--color-rule); }
+  .list { list-style: none; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--s-4) var(--s-24); }
+  .list--j { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .list :global(.brand) { position: relative; font-size: var(--fs-28); font-weight: 700; line-height: 1.25; min-height: var(--tap); text-decoration: none; }
+  .list :global(.brand)::after { content: ""; position: absolute; left: 0; right: 0; bottom: 4px; height: 2px; background: var(--color-primary); transform: scaleX(0); transform-origin: left; transition: transform var(--dur-mid) var(--ease-out); }
+  .list :global(.brand:hover)::after, .list :global(.brand:focus-visible)::after { transform: scaleX(1); }
+  .more { padding-top: var(--s-24); border-top: 1px solid var(--color-rule); font-size: var(--fs-20); display: flex; flex-wrap: wrap; align-items: center; gap: var(--s-8) var(--s-24); }
+  .more :global(.all) { font-weight: 700; min-height: var(--tap); }
+  @media (min-width: 768px) {
+    .col--j { grid-column: 1 / span 8; }
+    .col--k { grid-column: 9 / span 4; }
+    .list--j { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .list:not(.list--j) { grid-template-columns: minmax(0, 1fr); }
+  }
+  @media (min-width: 1024px) {
+    .head { grid-column: 1 / span 8; }
+  }
+  @media (prefers-reduced-motion: reduce) { .list :global(.brand)::after { transition: none; } }
+</style>

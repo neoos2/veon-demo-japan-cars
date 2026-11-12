@@ -1,0 +1,238 @@
+---
+// Signature of the page: a real <input> whose characters fill 17 VIN cells.
+// Local check only (length, no I/O/Q, first letter). Nothing is sent; actions are copy and a mailto letter.
+import Icon from "./Icon.astro";
+import { email, mailtoVin } from "../data/site";
+
+const example = "JTMBFREV1HJ000000";
+const segments = [
+  { from: 0, len: 3, label: "виробник і країна" },
+  { from: 3, len: 6, label: "модель, кузов, двигун" },
+  { from: 9, len: 1, label: "рік" },
+  { from: 10, len: 1, label: "завод" },
+  { from: 11, len: 6, label: "серійний номер" },
+];
+---
+<div class="vin" id="vin-check" data-vin data-email={email} data-rec="R-UX04">
+  <div class="vin__top">
+    <label class="vin__label" for="vin-input">Ваш VIN, 17 символів</label>
+    <span class="vin__tag" data-vin-tag>приклад</span>
+  </div>
+  <div class="vin__frame">
+    <input id="vin-input" class="vin__input mono" name="vin" type="text" inputmode="text" autocomplete="off" autocapitalize="characters" autocorrect="off" spellcheck="false" maxlength="40" placeholder={example} aria-describedby="vin-status vin-hint" />
+    <div class="vin__row" aria-hidden="true">
+      {segments.map((s, n) => (
+        <div class={`seg seg--${n + 1}`} data-seg={n}>
+          {Array.from({ length: s.len }, (_, k) => {
+            const i = s.from + k;
+            return (
+              <span class="cell" data-i={i} style={`--i:${i}`}>
+                <span class="cell__n mono">{i + 1}</span>
+                <span class="cell__box"><span class="cell__ch mono">{example[i]}</span></span>
+              </span>
+            );
+          })}
+          <span class="seg__label"><span class="seg__line"></span>{s.label}</span>
+        </div>
+      ))}
+    </div>
+  </div>
+  <p class="vin__status" id="vin-status" aria-live="polite" data-vin-status>Наберіть або вставте свій VIN: розберемо його на частини і перевіримо формат.</p>
+  <p class="vin__hint" id="vin-hint">Перевірка відбувається тут, у браузері. Поле нічого не надсилає: VIN можна скопіювати або відправити менеджеру листом.</p>
+  <div class="vin__actions" data-vin-actions>
+    <button class="btn btn--secondary" type="button" data-vin-copy hidden><Icon name="copy" />Скопіювати VIN</button>
+    <a class="btn btn--secondary" href={mailtoVin} data-vin-mail><Icon name="mail" />Надіслати VIN листом</a>
+  </div>
+</div>
+
+<style>
+  .vin { --cell-gap: 6px; --vin-size: var(--fs-vin); }
+  .vin__top { display: flex; align-items: baseline; gap: var(--s-16); margin-bottom: var(--s-12); }
+  .vin__label { font-weight: 700; font-size: var(--fs-16); }
+  .vin__tag { font-size: var(--fs-14); color: var(--color-on-field-muted); }
+  .vin__frame { position: relative; border-radius: var(--radius); }
+  .vin__input {
+    display: block; width: 100%; max-width: 32rem; min-height: var(--control-h); margin-bottom: var(--s-16);
+    padding: 0 var(--s-12); font-size: var(--fs-20);
+    color: var(--color-on-field); background: var(--color-field-raised); border: var(--border) solid var(--color-on-field-muted); border-radius: var(--radius);
+  }
+  .vin__input::placeholder { color: var(--color-on-field-muted); }
+  .vin__input:focus-visible { outline: 2px solid var(--color-accent-on-field); outline-offset: 2px; }
+
+  .vin__row { display: grid; grid-template-columns: repeat(8, minmax(0, 1fr)); column-gap: var(--cell-gap); row-gap: var(--s-16); --vin-size: clamp(1.5rem, 0.9rem + 2vw, 1.75rem); }
+  .seg { display: grid; grid-template-columns: subgrid; grid-template-rows: auto auto; row-gap: var(--s-8); min-width: 0; }
+  .seg--1 { grid-column: 1 / span 3; grid-row: 1; }
+  .seg--2 { grid-column: 1 / span 6; grid-row: 2; }
+  .seg--3 { grid-column: 1 / span 1; grid-row: 3; }
+  .seg--4 { grid-column: 2 / span 1; grid-row: 3; }
+  .seg--5 { grid-column: 3 / span 6; grid-row: 3; }
+  .cell { display: grid; gap: var(--s-4); min-width: 0; }
+  .cell__n { font-size: 0.6875rem; line-height: 1; color: var(--color-on-field-muted); padding-inline-start: 2px; }
+  .cell__box {
+    display: grid; place-items: center; block-size: calc(var(--vin-size) * 1.42);
+    border: var(--border) solid var(--color-rule-field); border-radius: var(--radius); background: var(--color-field-raised);
+    transition: border-color var(--dur-mid) var(--ease-out);
+  }
+  .cell__ch { font-size: var(--vin-size); line-height: 1; color: var(--color-on-field); }
+  .vin[data-state="example"] .cell__ch { color: var(--color-on-field-muted); }
+  .cell[data-i="0"] .cell__ch, .vin[data-state="example"] .cell[data-i="0"] .cell__ch { color: var(--color-brand); }
+  .cell.is-bad .cell__box { border-color: var(--color-accent-on-field); }
+  .cell.is-bad .cell__ch { color: var(--color-accent-on-field); }
+  .seg__label { grid-column: 1 / -1; grid-row: 2; display: grid; gap: var(--s-4); font-size: var(--fs-14); line-height: 1.3; color: var(--color-on-field-muted); min-width: 0; overflow-wrap: anywhere; }
+  .seg__line { display: block; height: 2px; background: var(--color-on-field-muted); opacity: .45; transition: opacity var(--dur-mid) var(--ease-out); }
+  .seg.is-current .seg__line { opacity: 1; background: var(--color-on-field); }
+  .seg.is-current .seg__label { color: var(--color-on-field); }
+  @media (max-width: 767px) { .seg__label { font-size: 0.75rem; } .seg--3 .seg__label, .seg--4 .seg__label { overflow-wrap: normal; white-space: nowrap; } }
+
+  .vin__status { margin-top: var(--s-16); font-weight: 700; min-height: 1.6em; max-width: var(--measure); }
+  .vin__status.is-error { color: var(--color-accent-on-field); }
+  .vin__hint { margin-top: var(--s-4); font-size: var(--fs-14); color: var(--color-on-field-muted); max-width: var(--measure); }
+  .vin__actions { display: flex; flex-wrap: wrap; gap: var(--s-12); margin-top: var(--s-16); }
+  .vin__actions [hidden] { display: none; }
+  /* Phones: status above the cells so it stays visible over the bottom action bar while typing */
+  @media (max-width: 767px) {
+    .vin { display: flex; flex-direction: column; }
+    .vin__top { order: 0; }
+    .vin__status { order: 1; margin-top: 0; margin-bottom: var(--s-12); }
+    .vin__frame { order: 2; scroll-margin-bottom: calc(var(--bar-h) + var(--s-24)); }
+    .vin__hint { order: 3; margin-top: var(--s-16); }
+    .vin__actions { order: 4; }
+  }
+
+  /* With scripting the input becomes the cell row itself (no JS: a plain visible field above the example). */
+  :global(.js) .vin__input { position: absolute; inset: 0; z-index: 2; width: 100%; max-width: none; height: 100%; margin: 0; opacity: 0; cursor: text; font-size: 16px; caret-color: transparent; }
+  :global(.js) .vin__frame:has(.vin__input:focus-visible) { outline: 2px solid var(--color-accent-on-field); outline-offset: 6px; }
+  :global(.js) .vin.is-focused .cell.is-active .cell__box { border-color: var(--color-on-field); }
+  :global(.js) .vin.is-focused .cell.is-active .cell__box::after { content: ""; width: 45%; height: 2px; align-self: end; margin-bottom: 18%; background: var(--color-accent-on-field); grid-area: 1 / 1; animation: vin-caret 1s steps(1) infinite; }
+  .cell__box > * { grid-area: 1 / 1; }
+
+  /* Effect 1: scan of the example row, once, left to right */
+  :global(.js) .cell { animation: vin-scan 360ms var(--ease-out) both; animation-delay: calc(var(--i) * 25ms + 80ms); }
+  /* Effect 2: typed character appears */
+  .cell__ch.is-new { animation: vin-char var(--dur-fast) var(--ease-out); }
+  @keyframes vin-scan { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: none; } }
+  @keyframes vin-char { from { opacity: 0; } to { opacity: 1; } }
+  @keyframes vin-caret { 50% { opacity: 0; } }
+
+  @media (min-width: 768px) {
+    .vin { --cell-gap: 8px; }
+    .vin__hint { max-width: none; }
+    .vin__row { grid-template-columns: repeat(17, minmax(0, 1fr)); row-gap: 0; --vin-size: var(--fs-vin); }
+    .seg--1, .seg--2, .seg--3, .seg--4, .seg--5 { grid-row: 1; }
+    .seg--1 { grid-column: 1 / span 3; }
+    .seg--2 { grid-column: 4 / span 6; }
+    .seg--3 { grid-column: 10 / span 1; }
+    .seg--4 { grid-column: 11 / span 1; }
+    .seg--5 { grid-column: 12 / span 6; }
+    .cell__n { font-size: var(--fs-14); }
+    @keyframes vin-scan { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    :global(.js) .cell, .cell__ch.is-new { animation: none; }
+    :global(.js) .vin.is-focused .cell.is-active .cell__box::after { animation: none; }
+    .seg__line, .cell__box { transition: none; }
+  }
+</style>
+
+<script>
+  const CYR: Record<string, string> = { А: "A", В: "B", Е: "E", К: "K", М: "M", Н: "H", О: "O", Р: "P", С: "C", Т: "T", Х: "X", І: "I", У: "Y" };
+  const EXAMPLE = "JTMBFREV1HJ000000";
+  const SEG_OF = (i: number) => (i < 3 ? 0 : i < 9 ? 1 : i === 9 ? 2 : i === 10 ? 3 : 4);
+
+  for (const root of document.querySelectorAll<HTMLElement>("[data-vin]")) {
+    const input = root.querySelector<HTMLInputElement>(".vin__input")!;
+    const cells = Array.from(root.querySelectorAll<HTMLElement>(".cell"));
+    const chars = cells.map((c) => c.querySelector<HTMLElement>(".cell__ch")!);
+    const segs = Array.from(root.querySelectorAll<HTMLElement>(".seg"));
+    const status = root.querySelector<HTMLElement>("[data-vin-status]")!;
+    const tag = root.querySelector<HTMLElement>("[data-vin-tag]")!;
+    const copyBtn = root.querySelector<HTMLButtonElement>("[data-vin-copy]")!;
+    const mail = root.querySelector<HTMLAnchorElement>("[data-vin-mail]")!;
+    const email = root.dataset.email || "";
+    let prev = "";
+    let timer = 0;
+
+    input.removeAttribute("placeholder");
+    root.dataset.state = "example";
+    mail.hidden = true;
+
+    const clean = (raw: string) =>
+      raw.toUpperCase().split("").map((ch) => CYR[ch] ?? ch).join("").replace(/[^A-Z0-9]/g, "").slice(0, 17);
+
+    const origin = (v: string) => {
+      if (!v) return "";
+      if (v[0] === "J") return "J — авто складене в Японії.";
+      if (v[0] === "K") return "K — авто складене в Південній Кореї.";
+      return `${v[0]} — не Японія і не Корея: підберемо й для інших марок.`;
+    };
+
+    const message = (v: string) => {
+      if (!v) return { text: "Наберіть або вставте свій VIN: розберемо його на частини і перевіримо формат.", error: false };
+      const bad = v.search(/[IOQ]/);
+      if (bad >= 0) return { text: `Літер I, O і Q у VIN не буває. Перевірте символ ${bad + 1}: можливо, це 1 або 0.`, error: true };
+      if (v.length < 17) return { text: `${origin(v)} Введено ${v.length} з 17.`, error: false };
+      return { text: `${origin(v)} 17 з 17, формат правильний. Скопіюйте VIN або надішліть його менеджеру листом.`, error: false };
+    };
+
+    const render = (announce: boolean) => {
+      const v = input.value;
+      const empty = v.length === 0;
+      root.dataset.state = empty ? "example" : "typing";
+      tag.hidden = !empty;
+      cells.forEach((cell, i) => {
+        const ch = empty ? EXAMPLE[i] : v[i] ?? "";
+        if (chars[i].textContent !== ch) {
+          chars[i].textContent = ch;
+          if (!empty && i >= prev.length && ch) {
+            chars[i].classList.remove("is-new");
+            void chars[i].offsetWidth;
+            chars[i].classList.add("is-new");
+          }
+        }
+        cell.classList.toggle("is-bad", !empty && /[IOQ]/.test(ch));
+        cell.classList.toggle("is-active", i === Math.min(v.length, 16));
+      });
+      const current = SEG_OF(Math.min(v.length, 16));
+      segs.forEach((s, n) => s.classList.toggle("is-current", root.classList.contains("is-focused") && n === current));
+      const m = message(v);
+      const valid = v.length === 17 && !m.error;
+      copyBtn.hidden = !valid;
+      mail.hidden = !valid;
+      if (valid) {
+        const body = [`VIN: ${v}`, "Марка, модель, рік: ", "Перелік і кількість деталей: ", "Ваш телефон: "].join("\n");
+        mail.href = `mailto:${email}?subject=${encodeURIComponent("Підбір за VIN " + v)}&body=${encodeURIComponent(body)}`;
+      }
+      status.classList.toggle("is-error", m.error);
+      window.clearTimeout(timer);
+      if (announce) timer = window.setTimeout(() => { status.textContent = m.text; }, m.error || valid ? 0 : 350);
+      else status.textContent = m.text;
+      prev = v;
+    };
+
+    input.addEventListener("input", () => {
+      const pos = input.selectionStart ?? input.value.length;
+      const v = clean(input.value);
+      if (v !== input.value) { input.value = v; input.setSelectionRange(Math.min(pos, v.length), Math.min(pos, v.length)); }
+      render(true);
+    });
+    input.addEventListener("focus", () => { root.classList.add("is-focused"); render(false); });
+    input.addEventListener("blur", () => { root.classList.remove("is-focused"); render(false); });
+    // the caret always sits at the end: cells show the value left to right
+    input.addEventListener("keydown", (e) => { if (["ArrowLeft", "ArrowRight", "Home", "End"].includes(e.key)) e.preventDefault(); });
+
+    copyBtn.addEventListener("click", async () => {
+      const v = input.value;
+      try {
+        await navigator.clipboard.writeText(v);
+      } catch {
+        input.select();
+        document.execCommand("copy");
+      }
+      status.classList.remove("is-error");
+      status.textContent = `VIN ${v} скопійовано. Вставте його в повідомлення менеджеру.`;
+    });
+
+    if (input.value) input.value = clean(input.value);
+    render(false);
+  }
+</script>

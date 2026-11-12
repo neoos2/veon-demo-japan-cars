@@ -1,0 +1,39 @@
+---
+import { mapUrl } from "../data/site";
+const rows = [
+  { t: "Повернення або обмін", d: "14 днів з дня покупки, у первісному пакуванні, без слідів встановлення" },
+  { t: "Гроші повертаємо", d: "до 7 днів" },
+  { t: "Гарантія не поширюється", d: "на електрообладнання й витратні матеріали: оливи, фільтри, технічні рідини" },
+  { t: "Не повертаються", d: "товари під індивідуальне замовлення, електрообладнання і деталі, підібрані за неправильними даними покупця" },
+];
+---
+<section id="guarantee" class="section guarantee" aria-labelledby="guarantee-title" data-rec="R-UX09">
+  <div class="container grid">
+    <div class="claim" data-reveal>
+      <h2 id="guarantee-title">6 місяців або <span class="mono-num">20 000</span> км</h2>
+      <p class="sub">Гарантія на деталі, для яких виробник не дає своєї. Інакше діє гарантія виробника за умови правильного встановлення.</p>
+      <p class="reviews"><a class="link" href={mapUrl} target="_blank" rel="noopener">Відгуки про нас у Google</a></p>
+    </div>
+    <dl class="terms" data-reveal style="--reveal-delay:60ms">
+      {rows.map((r) => <div class="row"><dt>{r.t}</dt><dd>{r.d}</dd></div>)}
+    </dl>
+  </div>
+</section>
+
+<style>
+  .guarantee { background: var(--color-bg); }
+  h2 { font-size: var(--fs-64); line-height: var(--lh-tight); letter-spacing: -0.02em; max-width: 12ch; }
+  .mono-num { white-space: nowrap; }
+  .sub { margin-top: var(--s-24); max-width: 40ch; color: var(--color-text-muted); }
+  .reviews { margin-top: var(--s-24); font-weight: 700; }
+  .reviews a { display: inline-flex; min-height: var(--tap); align-items: center; }
+  .terms { border-top: 2px solid var(--color-text); }
+  .row { display: grid; gap: var(--s-4); padding-block: var(--s-16); border-bottom: 1px solid var(--color-rule); }
+  dt { font-weight: 700; }
+  dd { color: var(--color-text-muted); }
+  @media (min-width: 768px) { .row { grid-template-columns: 14rem minmax(0, 1fr); gap: var(--gutter); } }
+  @media (min-width: 1024px) {
+    .claim { grid-column: 1 / span 5; }
+    .terms { grid-column: 7 / span 6; align-self: start; }
+  }
+</style>

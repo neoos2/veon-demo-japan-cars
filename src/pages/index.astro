@@ -1,0 +1,58 @@
+---
+import Base from "../layouts/Base.astro";
+import Header from "../components/Header.astro";
+import Hero from "../components/Hero.astro";
+import VinHow from "../components/VinHow.astro";
+import Brands from "../components/Brands.astro";
+import Groups from "../components/Groups.astro";
+import Delivery from "../components/Delivery.astro";
+import Guarantee from "../components/Guarantee.astro";
+import Faq from "../components/Faq.astro";
+import Contacts from "../components/Contacts.astro";
+import Footer from "../components/Footer.astro";
+import MobileBar from "../components/MobileBar.astro";
+import { email, faqs, phones } from "../data/site";
+
+const title = "Запчастини для японських і корейських авто — Japan Cars";
+const description = "Запчастини для японських, корейських та інших авто в Києві. Безкоштовний підбір за VIN за дилерськими каталогами. Доставка Києвом і Новою Поштою.";
+
+const ld = [
+  {
+    "@context": "https://schema.org",
+    "@type": "AutoPartsStore",
+    name: "Japan Cars",
+    description,
+    telephone: phones.map((p) => p.href.replace("tel:", "")),
+    email,
+    address: { "@type": "PostalAddress", streetAddress: "вул. Вишгородська, 52", addressLocality: "Київ", addressCountry: "UA" },
+    geo: { "@type": "GeoCoordinates", latitude: 50.5174625, longitude: 30.4478856 },
+    openingHoursSpecification: [
+      { "@type": "OpeningHoursSpecification", dayOfWeek: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"], opens: "09:00", closes: "19:00" },
+      { "@type": "OpeningHoursSpecification", dayOfWeek: ["Saturday", "Sunday"], opens: "10:00", closes: "16:00" },
+    ],
+    areaServed: "UA",
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: faqs.map((f) => ({ "@type": "Question", name: f.q, acceptedAnswer: { "@type": "Answer", text: f.a.join(" ") } })),
+  },
+];
+
+---
+<Base lang="uk" title={title} description={description}>
+  <script slot="head" type="application/ld+json" set:html={JSON.stringify(ld)} data-rec="R-SEO01" />
+  <Header slot="header" />
+  <Hero />
+  <VinHow />
+  <Brands />
+  <Groups />
+  <Delivery />
+  <Guarantee />
+  <Faq />
+  <Contacts />
+  <Fragment slot="footer">
+    <Footer />
+    <MobileBar />
+  </Fragment>
+</Base>

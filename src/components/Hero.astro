@@ -1,0 +1,42 @@
+---
+import Icon from "./Icon.astro";
+import VinField from "./VinField.astro";
+import { hours, mainPhone, telegram } from "../data/site";
+---
+<section id="hero" class="hero field" aria-labelledby="hero-title" data-rec="R-UX02">
+  <div class="container hero__inner">
+    <div class="hero__head">
+      <h1 id="hero-title">Запчастини для японських і корейських авто <br />з підбором за VIN</h1>
+      <p class="hero__lead">Безкоштовно підберемо оригінал або аналог за дилерськими каталогами: надішліть VIN або подзвоніть менеджеру.</p>
+      <div class="hero__ctas" data-rec="R-UX03,G-R005,MA-R004">
+        <a class="btn btn--primary" href={mainPhone.href}><Icon name="phone" />Подзвонити</a>
+        <a class="btn btn--secondary" href={telegram} target="_blank" rel="noopener"><Icon name="telegram" />Написати в Telegram</a>
+      </div>
+      <p class="hero__hours muted">Підбір і замовлення: {hours}</p>
+    </div>
+    <VinField />
+  </div>
+</section>
+
+<style>
+  .hero { padding-block: var(--s-40) var(--section-gap-field); }
+  .hero__inner { display: grid; gap: var(--s-64); }
+  .hero__head { display: grid; gap: var(--s-24); max-width: 52rem; }
+  h1 { font-size: var(--fs-64); line-height: var(--lh-tight); letter-spacing: -0.02em; text-wrap: balance; }
+  .hero__lead { font-size: var(--fs-17); max-width: 46ch; color: var(--color-on-field); }
+  .hero__ctas { display: grid; gap: var(--s-12); }
+  .hero__hours { font-size: var(--fs-14); }
+  @media (min-width: 480px) {
+    .hero__ctas { display: flex; flex-wrap: wrap; }
+  }
+  @media (min-width: 768px) {
+    .hero { padding-top: var(--s-64); }
+    .hero__lead { font-size: var(--fs-20); }
+    .hero__inner { gap: var(--s-64); }
+  }
+  @media (min-width: 1200px) {
+    .hero { padding-top: var(--s-40); padding-bottom: var(--s-64); }
+    .hero__inner { gap: var(--s-40); }
+    .hero__head { max-width: 60rem; }
+  }
+</style>

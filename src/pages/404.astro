@@ -1,0 +1,31 @@
+---
+import Base from "../layouts/Base.astro";
+import Header from "../components/Header.astro";
+import Footer from "../components/Footer.astro";
+import Icon from "../components/Icon.astro";
+import { mainPhone } from "../data/site";
+---
+<Base lang="uk" title="Сторінку не знайдено — Japan Cars" description="Такої сторінки немає. Поверніться на головну Japan Cars або подзвоніть менеджеру.">
+  <Header slot="header" prefix="/" />
+  <section class="nf field" aria-labelledby="nf-title">
+    <div class="container">
+      <p class="code mono" aria-hidden="true"><span class="first">4</span>04</p>
+      <h1 id="nf-title">Такої сторінки немає</h1>
+      <p class="lead">Можливо, адресу набрано з помилкою. Поверніться на головну або подзвоніть: менеджер підбере деталь за VIN.</p>
+      <div class="ctas">
+        <a class="btn btn--primary" href="/"><span>На головну</span></a>
+        <a class="btn btn--secondary" href={mainPhone.href}><Icon name="phone" />{mainPhone.label}</a>
+      </div>
+    </div>
+  </section>
+  <Footer slot="footer" />
+</Base>
+
+<style>
+  .nf { padding-block: var(--s-96); min-height: 60svh; }
+  .code { font-size: var(--fs-jk); line-height: .9; color: var(--color-on-field-muted); margin-bottom: var(--s-24); }
+  .first { color: var(--color-brand); }
+  h1 { font-size: var(--fs-44); line-height: var(--lh-head); margin-bottom: var(--s-16); text-wrap: balance; }
+  .lead { max-width: 46ch; margin-bottom: var(--s-24); }
+  .ctas { display: flex; flex-wrap: wrap; gap: var(--s-12); }
+</style>
