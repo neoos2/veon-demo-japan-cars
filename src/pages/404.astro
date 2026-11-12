@@ -4,6 +4,7 @@ import Header from "../components/Header.astro";
 import Footer from "../components/Footer.astro";
 import Icon from "../components/Icon.astro";
 import { mainPhone } from "../data/site";
+const base = import.meta.env.BASE_URL.replace(/\/?$/, "/");
 ---
 <Base lang="uk" title="Сторінку не знайдено — Japan Cars" description="Такої сторінки немає. Поверніться на головну Japan Cars або подзвоніть менеджеру.">
   <Header slot="header" prefix="/" />
@@ -13,7 +14,7 @@ import { mainPhone } from "../data/site";
       <h1 id="nf-title">Такої сторінки немає</h1>
       <p class="lead">Можливо, адресу набрано з помилкою. Поверніться на головну або подзвоніть: менеджер підбере деталь за VIN.</p>
       <div class="ctas">
-        <a class="btn btn--primary" href="/"><span>На головну</span></a>
+        <a class="btn btn--primary" href={base}><span>На головну</span></a>
         <a class="btn btn--secondary" href={mainPhone.href}><Icon name="phone" />{mainPhone.label}</a>
       </div>
     </div>
